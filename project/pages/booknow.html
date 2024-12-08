@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Section</title>
+    <link rel="stylesheet" href="../styles/book-now.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+    <script>
+
+        function toggleCheckbox(event) {
+            const checkbox = event.target.closest('.item').querySelector('.item-checkbox');
+            if (event.target !== checkbox) {
+                checkbox.checked = !checkbox.checked;
+            }
+        }
+    
+        document.querySelectorAll('.item-container').forEach(container => {
+            container.addEventListener('click', toggleCheckbox);
+        });
+
+        function handleEventTypeChange() {
+    const eventType = document.getElementById("event-type").value;
+    const otherEventContainer = document.getElementById("other-event-container");
+    if (eventType === "others") {
+        otherEventContainer.style.display = "block";
+    } else {
+        otherEventContainer.style.display = "none";
+        document.getElementById("other-event").value = ""; 
+    }
+}
+
+    </script>
+</head>
+
+<body>
+
+
+<!-- Popup Structure -->
+<div id="popup" class="popup">
+  <div class="popup-content">  
+    <h2 id="rem">Booking Details</h2>
+    <center><h3 id="somef">Selected Items</h3></center>
+    <ul id="selected-items-list"></ul>
+    <center>
+    <div class="loading-spinner" id="loading-spinner"></div> </center>
+    <div id="email-exists-popup" class="custom-popup">
+        <div class="custom-popup-content">
+          <span class="custom-popup-title">Account Already Exists</span>
+          <p id="popup-message" class="custom-popup-message">We apologize for the inconvenience, but the email address you entered is already associated with an existing account.</p>
+          <p class="custom-popup-message">Please click the button below to sign in and view your details.</p>
+          <button id="sign-in-again" class="custom-btn" onclick="window.location.href = '../pages/signin.html'">Sign In Page</button>
+        </div>
+      </div>
+
+    <div id="profile-info" style="display: none; text-align: center;">
+      <img id="profile-pic" src="" alt="Profile Picture" style="border-radius: 50%; width: 80px; height: 80px;">
+      <h3 class="another" id="profile-name"></h3>
+      <h3 class="another"><strong>Email:</strong> <span id="user-email"></span></h3>
+      
+        <h3 class="yourinfo" >Your Information</h3><br>
+        <div class="form-group">
+            <label for="user-name">Full Name:</label>
+            <input type="text" id="user-name" placeholder="Enter your full name" />
+        </div>
+
+        <div class="form-group">
+            <label for="event-type">Event:</label>
+            <select id="event-type" onchange="handleEventTypeChange()">
+                <option value="" disabled selected>Select Event Type</option>
+                <option value="birthday">Birthday</option>
+                <option value="marriage">Marriage</option>
+                <option value="corporate">Corporate Event</option>
+                <option value="festival">Festival</option>
+                <option value="others">Others</option>
+            </select>
+        </div>
+        <div id="other-event-container" class="form-group" style="display: none;">
+            <label for="other-event">Please Specify:</label>
+            <input type="text" id="other-event" placeholder="Enter event details">
+        </div>
+        
+        <div class="form-group">
+            <label for="user-mobile">Mobile Number:</label>
+            <input type="text" id="user-mobile" placeholder="Enter your mobile number" />
+        </div>
+        <div class="form-group">
+            <label for="user-address">Address:</label>
+            <input type="text" id="user-address" placeholder="Enter your address" />
+        </div>
+    
+        <div class="form-group">
+            <label for="user-event-date">Event Date:</label>
+            <input type="date" id="user-event-date" />
+        </div>
+
+        <div class="form-group">
+            <label for="user-event-date">Time(Optional):</label>
+            <input type="time" id="user-time" name="user-time"  />
+        </div>
+
+        <div class="form-group1">
+            <label for="user-description">Description <span>(Optional):</span></label><br><br>
+            <textarea id="user-description" name="user-description"  placeholder="Please enter if you want to say something"></textarea>
+        </div>
+        
+
+        <button class="submit-info">Submit</button>
+    
+    </div>
+    <div id="popbet" class="popup-buttons">
+      <button class="confirm-popup">Confirm</button>
+      <button class="close-popup">Close</button>
+    </div>
+    <div id="thank-you-container">
+        <img id="thank-you-logo" src="../images/Screenshot (1).png" alt="Rishi Supplying Logo">
+        <h1>Rishi Supplying</h1>
+        <h2>Thank You for Choosing Rishi Supplying!</h2>
+        <p>We appreciate your trust in us and look forward to serving you.</p>
+        <p>Our team will get in touch with you shortly. Have a great day!</p>
+        <p>You Can View Your Details In The Below Page Click The button</p>
+        <button class="close-btn" id="close-thank-you" onclick="window.location.href = '../pages/signin.html'">
+          Sign in Page
+        </button>
+      </div>
+  </div>
+  
+</div>
+
+    
+    <header class="header">
+        <h1>Booking Section</h1>
+    </header>
+
+    <section class="item-list">
+        <div>
+            Available Items
+            <br>
+            <p>Select the items you need for your event</p>
+            <br>
+        </div>
+        <form action="/submit-booking" method="POST">
+            <div class="items-container">
+                <div class="item">
+                    <label for="checkbox-tent" class="item-container" onclick="toggleCheckbox(event)">
+                        <span class="item-name">German Tent</span>
+                        <img src="../sample images/german tents.jpg" alt="Tent">
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="checkbox-tent-visible" class="item-checkbox">
+                        </div>
+                    </label>
+                </div>
+
+                <div class="item">
+                    <label for="checkbox-superstructure" class="item-container" onclick="toggleCheckbox(event)">
+                        <span class="item-name">Super Structure</span>
+                        <img src="../sample images/super structure.jpg" alt="Table">
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="checkbox-superstructure-visible" class="item-checkbox">
+                        </div>
+                    </label>
+                </div>
+
+                <div class="item">
+                    <label for="checkbox-platform" class="item-container" onclick="toggleCheckbox(event)">
+                        <span class="item-name">Platform</span>
+                        <img src="../sample images/platform.jpg" alt="Tent">
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="checkbox-platform-visible" class="item-checkbox">
+                        </div>
+                    </label>
+                </div>
+
+                <div class="item">
+                    <label for="checkbox-mat" class="item-container" onclick="toggleCheckbox(event)">
+                        <span class="item-name">Green mats</span>
+                        <img src="../sample images/greenmat.jpg" alt="Chair">
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="checkbox-mat-visible" class="item-checkbox">
+                        </div>
+                    </label>
+                </div>
+
+                <div class="item">
+                    <label for="checkbox-pendals" class="item-container" onclick="toggleCheckbox(event)">
+                        <span class="item-name">Pendals</span>
+                        <img src="../images/chair.jpg" alt="Chair">
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="checkbox-pendals-visible" class="item-checkbox">
+                        </div>
+                    </label>
+                </div>
+
+                <div class="item">
+                    <label for="checkbox-vipcharirs" class="item-container" onclick="toggleCheckbox(event)">
+                        <span class="item-name">Vip Chairs</span>
+                        <img src="../images/diff chait.jpg" alt="Tent">
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="checkbox-vipchairs-visible" class="item-checkbox">
+                        </div>
+                    </label>
+                </div>
+
+                <div class="item">
+                    <label for="checkbox-chair" class="item-container" onclick="toggleCheckbox(event)">
+                        <span class="item-name">Chairs</span>
+                        <img src="../images/chair.jpg" alt="Chair">
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="checkbox-chair-visible" class="item-checkbox">
+                        </div>
+                    </label>
+                </div>
+
+                <div class="item">
+                    <label for="checkbox-fans" class="item-container" onclick="toggleCheckbox(event)">
+                        <span class="item-name">Fans</span>
+                        <img src="../images/fan.jpg" alt="Table">
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="checkbox-fans-visible" class="item-checkbox">
+                        </div>
+                    </label>
+                </div>
+
+                <div class="item">
+                    <label for="checkbox-table" class="item-container" onclick="toggleCheckbox(event)">
+                        <span class="item-name">Table</span>
+                        <img src="../sample images/table.webp" alt="Table">
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="checkbox-table-visible" class="item-checkbox">
+                        </div>
+                    </label>
+                </div><div class="item">
+                    <label for="checkbox-sofa" class="item-container" onclick="toggleCheckbox(event)">
+                        <span class="item-name">Sofa</span>
+                        <img src="../sample images/sofa.webp" alt="Tent">
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="checkbox-sofa-visible" class="item-checkbox">
+                        </div>
+                    </label>
+                </div>
+
+                <div class="item">
+                    <label for="checkbox-cooler" class="item-container" onclick="toggleCheckbox(event)">
+                        <span class="item-name">Coolers</span>
+                        <img src="../images/cooler.jpg" alt="Chair">
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="checkbox-cooler-visible" class="item-checkbox">
+                        </div>
+                    </label>
+                </div>
+
+                <div class="item">
+                    <label for="checkbox-dj" class="item-container" onclick="toggleCheckbox(event)">
+                        <span class="item-name">Dj</span>
+                        <img src="../sample images/dj.jpg" alt="Lighting">
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="checkbox-dj-visible" class="item-checkbox">
+                        </div>
+                    </label>
+                </div>
+
+                <div class="item">
+                    <label for="checkbox-led" class="item-container" onclick="toggleCheckbox(event)">
+                        <span class="item-name">Led Lights</span>
+                        <img src="../sample images/ledlights.jpg" alt="Table">
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="checkbox-led-visible" class="item-checkbox">
+                        </div>
+                    </label>
+                </div>
+
+                <div class="item">
+                    <label for="checkbox-truss" class="item-container" onclick="toggleCheckbox(event)">
+                        <span class="item-name">Truss</span>
+                        <img src="../sample images/truss.jpg" alt="Lighting">
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="checkbox-truss-visible" class="item-checkbox">
+                        </div>
+                    </label>
+                </div>
+                
+            </div>
+            
+            <div class="button-container">
+                <button type="button" class="submit-button" >Book Now</button>
+
+
+            </div>
+        </form>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2024 Your Tent House | All Rights Reserved</p>
+    </footer>
+
+    <script type="module" src="../scripts/booknow-script.js">
+        
+        </script>
+</body>
+</html>
